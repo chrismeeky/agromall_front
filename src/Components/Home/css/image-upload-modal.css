@@ -1,0 +1,31 @@
+.image-upload-body {
+  height: 150px;
+}
+.drag-drop-area {
+  background-color: rgb(239, 245, 235);
+  height: 110px;
+  width: 90%;
+  border: 1px dashed rgb(184, 194, 194);
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.image-upload-select {
+  margin-left: 55px;
+  margin-top: 40px;
+  height: 45px;
+}
+.uploaded-market-mage {
+  width: 100px;
+  height: 100px;
+  float: left;
+  background-color: rgb(143, 132, 132);
+  margin: 10px;
+  border-radius: 5px;
+}
+.image-upload-loader {
+    width: fit-content;
+    margin: auto;
+    margin-top: 25px;
+}

@@ -1,0 +1,86 @@
+.left-bar-body {
+  height: 99%;
+  overflow-y: scroll;
+}
+.left-bar-content {
+  float: right;
+  width: 80%;
+
+  /* background-color: red; */
+}
+::-webkit-scrollbar {
+  width: 1px;
+}
+.site-title {
+  margin-top: 5px;
+  width: fit-content;
+  margin: auto;
+}
+
+.site-title span {
+  color: #8087cb;
+  font-size: 2.5vw;
+  font-weight: 500;
+}
+@media screen and (max-width: 992px) {
+  .site-title span {
+    font-size: 25px;
+  }
+}
+.profile-image {
+  width: 40px;
+  height: 40px;
+  background-color: #c4c4c4;
+  border-radius: 50%;
+  float: left;
+  margin-right: 10px;
+}
+.users-name {
+  margin: 10px;
+  margin-left: 10px;
+}
+.users-name span {
+  display: block;
+}
+.users-name :nth-child(2) {
+  font-size: 12px !important;
+  color: grey;
+}
+.edit-profile {
+  width: 70%;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #8087cb;
+  color: white;
+  font-size: 13px;
+  overflow: hidden;
+}
+.menu-options {
+  color: rgb(99, 97, 97);
+  margin-bottom: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-options:hover {
+  color: #8087cb;
+}
+.sign-out {
+  color: grey;
+  cursor: pointer;
+}
+.popular-markets {
+  width: fit-content;
+  margin: auto;
+}
+.markets {
+  width: 90%;
+  margin: auto;
+}
+.popular-market {
+  float: left;
+  width: 70px;
+  height: 70px;
+  background-color: grey;
+  margin: 5px;
+  border-radius: 5px;
+}

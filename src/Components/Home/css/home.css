@@ -1,0 +1,23 @@
+.home-body {
+  background-color: #f6f6f6;
+}
+.main-content {
+    background-color: white;
+}
+.left-bar {
+  float: left;
+  width: 28%;
+  /* background-color: red; */
+}
+.main-content {
+  float: left;
+  width: 72%;
+  padding-right: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: block;
+  clear: both;
+}

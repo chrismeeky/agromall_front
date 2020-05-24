@@ -1,0 +1,75 @@
+.action-accordion {
+  padding: 0px !important;
+  transition: height 0.3s ease;
+  width: 100%;
+  overflow: hidden;
+}
+
+.accordion-body {
+  transition: max-height 0.3s ease;
+  background-color: #f6f6f6;
+}
+.accordion-body .action-option {
+  margin-left: 12px;
+}
+
+.accordion-body .action-option label {
+  font-style: normal;
+  font-weight: 400;
+}
+.opened-accordion {
+  box-shadow: 0 1.5px 3px 0 rgba(196, 196, 196, 0.9);
+}
+.show-categories {
+  width: fit-content;
+  margin: auto;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: rgb(102, 98, 98);
+}
+.custom-checkbox {
+  float: left;
+  margin-left: 10px;
+}
+.all-categories {
+  width: 80%;
+}
+.nearby-markets-container {
+  margin: auto;
+  width: 100%;
+}
+
+.nearby-markets-container .market {
+  width: 25%;
+  height: 150px;
+  background-color: rgb(211, 205, 205);
+  float: left;
+  margin: 10px;
+  cursor: pointer;
+}
+.market-overlay {
+  width: 100%;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.288);
+  position: relative;
+  top: -150px;
+}
+.market-overlay:hover {
+  background-color: rgba(0, 0, 0, 0.479);
+  transition: background-color 0.7s ease;
+}
+.market-info {
+  width: fit-content;
+  margin: auto;
+  color: white;
+  position: relative;
+  top: 90px;
+  font-weight: 500;
+}
+.market-info .name{
+    width: fit-content;
+    margin: auto;
+  }
+  .market-info .address {
+      font-size: 10px;
+  }

@@ -49,7 +49,11 @@ class Login extends Component {
           }
         );
         if (loggedIn) {
-          this.setState({ showSubmitLoader: false, loggedIn: true });
+          this.setState({
+            showSubmitLoader: false,
+            loggedIn: true,
+            userDetails: loggedIn.data.data.userDetails,
+          });
           localStorage.setItem(
             "userDetails",
             JSON.stringify(loggedIn.data.data.userDetails)
@@ -87,11 +91,11 @@ class Login extends Component {
             </div>
             <form onSubmit={this.handleSubmit}>
               <div class="form-group">
-                <label for="email">Login</label>
+                <label for="login-input-email">Login</label>
                 <input
                   type="email"
-                  class="form-control"
-                  id="email"
+                  class="form-control "
+                  id="login-input-email"
                   name="email"
                   placeholder="Enter your email"
                   value={this.state.email}
@@ -102,11 +106,11 @@ class Login extends Component {
                 </span>
               </div>
               <div class="form-group">
-                <label for="password">Password</label>
+                <label for="login-input-password">Password</label>
                 <input
                   type="password"
                   class="form-control"
-                  id="password"
+                  id="login-input-password"
                   name="password"
                   placeholder="Enter your password"
                   value={this.state.password}
