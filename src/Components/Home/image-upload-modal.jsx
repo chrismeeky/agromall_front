@@ -21,6 +21,7 @@ class ImageUploadModal extends Component {
 
   handleClose = () => {
     this.setState({ show: false });
+    this.props.setShowImageUploader(false);
   };
   componentWillReceiveProps(props) {
     this.setState({ show: props.showImageUploader });

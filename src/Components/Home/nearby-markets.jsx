@@ -32,10 +32,11 @@ class NearbyMarkets extends Component {
             locationID,
           });
         });
-        console.log("markets", toBeRendered);
         this.setState({ markets: toBeRendered });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   render() {
     return (
@@ -157,7 +158,13 @@ class NearbyMarkets extends Component {
                   <div className="market-overlay">
                     <div className="market-info">
                       <div className="name">{market.marketName}</div>
-                      <span className="address"><i class="fas fa-map-marker-alt" style={{marginRight:"5px"}}></i>{market.formattedAddress}</span>
+                      <span className="address">
+                        <i
+                          class="fas fa-map-marker-alt"
+                          style={{ marginRight: "5px" }}
+                        ></i>
+                        {market.formattedAddress}
+                      </span>
                     </div>
                   </div>
                 </div>

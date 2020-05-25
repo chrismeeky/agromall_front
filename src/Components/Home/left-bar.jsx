@@ -42,15 +42,15 @@ class LeftBar extends Component {
           </div>
           <div
             className="menu-options"
-            onClick={() => this.props.switchTabs("addMarket")}
-          >
-            <span>Add market</span>
-          </div>
-          <div
-            className="menu-options"
             onClick={() => this.props.switchTabs("manageMarkets")}
           >
             <span>Manage markets</span>
+          </div>
+          <div
+            className="menu-options"
+            onClick={() => this.props.switchTabs("adRequests")}
+          >
+            <span>Ad requests</span>
           </div>
           <hr />
           <div className="popular-markets">

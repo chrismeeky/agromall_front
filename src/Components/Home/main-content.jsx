@@ -8,11 +8,11 @@ class MainContent extends Component {
     height: "0px",
     initialHeight: 0,
     openedAccordion: false,
-    activeTab: "nearbyMarkets",
+    activeTab: "manageMarkets",
     marketPhotos: [],
   };
   tabNames = {
-    addMarket: "Add market",
+    adRequests: "Manage adverts",
     nearbyMarkets: "Markets nearby",
     newMarkets: "New markets",
     manageMarkets: "Manage markets",
@@ -47,7 +47,7 @@ class MainContent extends Component {
             <i className="fa fa-filter"></i>
           </div>
         </div>
-        {this.state.activeTab === "addMarket" ? <AddNewMarket /> : ""}
+        {this.state.activeTab === "manageMarkets" ? <AddNewMarket /> : ""}
         {this.state.activeTab === "nearbyMarkets" ? (
           <NearbyMarkets
             accordionOpen={this.state.accordionOpen}
