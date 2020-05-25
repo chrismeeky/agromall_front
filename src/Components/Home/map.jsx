@@ -9,10 +9,8 @@ import {
 import Geocode from "react-geocode";
 import Autocomplete from "react-google-autocomplete";
 const GoogleMapsAPI = process.env.REACT_APP_GOOGLE_MAP_API;
-console.log("api", GoogleMapsAPI);
 Geocode.setApiKey(GoogleMapsAPI);
 Geocode.enableDebug();
-console.log("api", GoogleMapsAPI);
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -46,8 +44,6 @@ class Map extends Component {
           city = this.getCity(addressArray),
           area = this.getArea(addressArray),
           state = this.getState(addressArray);
-
-        console.log("city", city, area, state);
 
         this.setState({
           address: address ? address : "",
@@ -273,7 +269,7 @@ class Map extends Component {
               marginBottom: "500px",
             }}
             onPlaceSelected={this.onPlaceSelected}
-            types={["(regions)"]}
+            types={["geocode"]}
           />
         </GoogleMap>
       ))

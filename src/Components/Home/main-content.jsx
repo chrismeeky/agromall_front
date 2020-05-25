@@ -8,7 +8,7 @@ class MainContent extends Component {
     height: "0px",
     initialHeight: 0,
     openedAccordion: false,
-    activeTab: "manageMarkets",
+    activeTab: "nearbyMarkets",
     marketPhotos: [],
   };
   tabNames = {
@@ -20,7 +20,7 @@ class MainContent extends Component {
   handleToggle = () => {
     this.setState({
       accordionOpen: !this.state.accordionOpen,
-      height: this.state.accordionOpen ? "0px" : "110px",
+      height: this.state.accordionOpen ? "0px" : "170px",
     });
     if (this.state.openedAccordion)
       setTimeout(() => {

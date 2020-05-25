@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Autocomplete from "react-google-autocomplete";
+import { getCity, getArea, getState } from "../../Utils/getAddressComponent";
 import "./css/nearby-markets.css";
 class NearbyMarkets extends Component {
   state = {
@@ -8,14 +10,24 @@ class NearbyMarkets extends Component {
     initialHeight: 0,
     openedAccordion: false,
     markets: [],
+    marketsCopy: [],
+    allCategories: [],
+    selectedCategories: [],
+    selectedLocation: {},
+    filteredMarkets: [],
+    foundMarkets: [],
   };
   async componentDidMount() {
     try {
       const markets = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/markets`
       );
-      if (markets) {
+      const categories = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/categories`
+      );
+      if (markets && categories) {
         const allMarkets = markets.data.data.markets;
+        const allCategories = categories.data.data.categories;
         const toBeRendered = [];
 
         allMarkets.forEach((market) => {
@@ -23,21 +35,91 @@ class NearbyMarkets extends Component {
             marketName,
             formattedAddress,
             imageURLs,
+            categories,
             locationID,
+            city,
+            state,
+            area,
           } = market;
           toBeRendered.push({
             marketName,
             formattedAddress,
             imageURL: imageURLs[0],
+            categories,
             locationID,
+            city,
+            state,
+            area,
           });
         });
-        this.setState({ markets: toBeRendered });
+        this.setState({
+          markets: toBeRendered,
+          marketsCopy: toBeRendered,
+          allCategories,
+        });
       }
     } catch (error) {
       console.log(error.message);
     }
   }
+  handleSelectedCategory = (event) => {
+    let selectedCategories = [...this.state.selectedCategories];
+    const selectedCategory = event.target.name;
+    if (selectedCategories.includes(selectedCategory)) {
+      selectedCategories = selectedCategories.filter(
+        (category) => category !== selectedCategory
+      );
+    } else {
+      selectedCategories.push(selectedCategory);
+    }
+    this.setState({ selectedCategories });
+  };
+  onPlaceSelected = async (place) => {
+    const address = place.formatted_address,
+      addressArray = place.address_components,
+      latValue = place.geometry.location.lat(),
+      lngValue = place.geometry.location.lng();
+    this.setState({
+      selectedLocation: address.split(",")[0],
+    });
+  };
+  applyFilter = () => {
+    let foundMarkets = [];
+    const filteredMarkets = [];
+    const markets = [...this.state.marketsCopy];
+    const { selectedLocation, selectedCategories } = this.state;
+    markets.forEach((market) => {
+      if (market.formattedAddress.includes(selectedLocation)) {
+        foundMarkets.push(market);
+      }
+    });
+    const toBeFilteredMarkets = foundMarkets.length ? foundMarkets : markets;
+    if (this.state.selectedCategories.length) {
+      for (let index = 0; index < toBeFilteredMarkets.length; index += 1) {
+        const { categories } = toBeFilteredMarkets[index];
+        const found =
+          selectedCategories.some((category) =>
+            categories.includes(category)
+          ) ||
+          categories.some((category) => selectedCategories.includes(category));
+        console.log(found);
+
+        if (found) {
+          filteredMarkets.push(toBeFilteredMarkets[index]);
+        }
+      }
+    } else {
+      foundMarkets = toBeFilteredMarkets;
+    }
+
+    console.log(foundMarkets, filteredMarkets);
+
+    this.setState({
+      markets: filteredMarkets.length ? filteredMarkets : foundMarkets,
+      filteredMarkets,
+      foundMarkets,
+    });
+  };
   render() {
     return (
       <div className="nearbyMarkets">
@@ -55,92 +137,47 @@ class NearbyMarkets extends Component {
                   <span>Show</span>
                 </div>
                 <div className="container all-categories">
-                  <div class="custom-control custom-checkbox  ">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="rememberme"
-                      name="rememberMe"
-                    ></input>
-                    <label
-                      class="remember-me custom-control-label"
-                      for="rememberme"
-                    >
-                      fashion
-                    </label>
-                  </div>
-                  <div class="custom-control custom-checkbox  ">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="rememberme"
-                      name="rememberMe"
-                    ></input>
-                    <label
-                      class="remember-me custom-control-label"
-                      for="rememberme"
-                    >
-                      food
-                    </label>
-                  </div>
-                  <div class="custom-control custom-checkbox  ">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="rememberme"
-                      name="rememberMe"
-                    ></input>
-                    <label
-                      class="remember-me custom-control-label"
-                      for="rememberme"
-                    >
-                      building
-                    </label>
-                  </div>
-                  <div class="custom-control custom-checkbox  ">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="rememberme"
-                      name="rememberMe"
-                    ></input>
-                    <label
-                      class="remember-me custom-control-label"
-                      for="rememberme"
-                    >
-                      fruits
-                    </label>
-                  </div>
-                  <div class="custom-control custom-checkbox  ">
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="rememberme"
-                      name="rememberMe"
-                    ></input>
-                    <label
-                      class="remember-me custom-control-label"
-                      for="rememberme"
-                    >
-                      vegetables
-                    </label>
-                  </div>
+                  {this.state.allCategories.map((category) => (
+                    <div class="custom-control custom-checkbox  ">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id={category}
+                        name={category}
+                        onChange={this.handleSelectedCategory}
+                      ></input>
+                      <label
+                        class="remember-me custom-control-label"
+                        for={category}
+                      >
+                        {category}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="show-categories">
                   <span>Where</span>
                 </div>
-                <div className="md-form">
-                  <input
-                    name="address"
-                    onChange={this.onChange}
-                    type="address"
-                    className="form-control"
-                    id="address"
-                    placeholder="Somolu"
-                  ></input>
+                <div className="location-searchbox">
+                  <Autocomplete
+                    style={{
+                      width: "100%",
+                      height: "40px",
+                      paddingLeft: "16px",
+                      marginTop: "2px",
+                      marginBottom: "500px",
+                    }}
+                    onPlaceSelected={this.onPlaceSelected}
+                    types={["geocode"]}
+                  />
                 </div>
+              </div>
+              <div className="apply-filter">
+                <button className="btn btn-primary" onClick={this.applyFilter}>
+                  Apply filter
+                </button>
               </div>
             </div>
           </div>

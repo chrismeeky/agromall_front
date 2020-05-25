@@ -20,6 +20,7 @@ class AddNewMarket extends Component {
     allMarkets: [],
     token: "",
     isEditing: false,
+    marketID: "",
   };
   addImages = (newImages) => {
     const images = [...this.state.marketPhotos];
@@ -34,8 +35,8 @@ class AddNewMarket extends Component {
     this.setGlobal({ area: location.area });
     console.log("this is location", this.state.location.area);
   };
-  setShowImageUploader = (value) => {
-    this.setState({ showImageUploader: value });
+  setShowModal = (type, value) => {
+    this.setState({ [type]: value });
   };
   handleSubmit = async () => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -48,7 +49,10 @@ class AddNewMarket extends Component {
     const data = {
       marketName: this.state.nameOfMarket,
       marketDescription: this.state.description,
-      categories: [...this.state.categories.split(",")],
+      categories:
+        Array.isArray(this.state.categories) && this.state.categories.length
+          ? this.state.categories
+          : this.state.categories.toLocaleLowerCase().split(","),
       locationID: this.state.location.place.place_id,
       addressComponents: this.state.location.place.address_components,
       formattedAddress: this.state.location.place.formatted_address,
@@ -60,21 +64,19 @@ class AddNewMarket extends Component {
       token: userDetails.token,
     };
     try {
-      const savedMarket = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/market/upload`,
-        data
-      );
+      const savedMarket = this.state.isEditing
+        ? await axios.patch(`${process.env.REACT_APP_BASE_URL}/market/update`, {
+            ...data,
+            id: this.state.marketID,
+          })
+        : await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/market/upload`,
+            data
+          );
+
       if (savedMarket) {
         setTimeout(() => {
-          this.setState({
-            showLoadingOverlay: false,
-            nameOfMarket: "",
-            description: "",
-            categories: "",
-            location: {},
-            imageURLs: [],
-            isEditing: false,
-          });
+          this.clearMarketData();
           createNotification("info");
         }, 3000);
         this.getAllMarkets();
@@ -82,6 +84,18 @@ class AddNewMarket extends Component {
     } catch (error) {
       console.log("error", error.message);
     }
+  };
+  clearMarketData = () => {
+    this.setState({
+      showLoadingOverlay: false,
+      nameOfMarket: "",
+      description: "",
+      categories: "",
+      location: {},
+      imageURLs: [],
+      isEditing: false,
+      marketPhotos: [],
+    });
   };
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -147,7 +161,12 @@ class AddNewMarket extends Component {
         address: market.formattedAddress,
       },
     };
-    this.setState({ ...data, showAvailableMarkets: false, isEditing: true });
+    this.setState({
+      ...data,
+      showAvailableMarkets: false,
+      isEditing: true,
+      marketID,
+    });
   };
   render() {
     return (
@@ -156,13 +175,14 @@ class AddNewMarket extends Component {
         <ImageUploadModal
           showImageUploader={this.state.showImageUploader}
           addImages={this.addImages}
-          setShowImageUploader={this.setShowImageUploader}
+          setShowImageUploader={this.setShowModal}
         />
         <DeleteOverlay
           showDelete={this.state.showDelete}
           marketID={this.state.marketID}
           token={this.state.token}
           getAllMarkets={this.getAllMarkets}
+          setShowModal={this.setShowModal}
         />
         {this.state.showAvailableMarkets ? (
           <React.Fragment>
@@ -175,7 +195,10 @@ class AddNewMarket extends Component {
                         <img src={market.imageURLs[0]} alt="" />
                       </div>
                       <div className="market-title">
-                        <div className="title">
+                        <div
+                          className="title"
+                          onClick={() => this.handleEdit(market._id)}
+                        >
                           <span>{market.marketName}</span>
                         </div>
                         <div className="date">
@@ -380,10 +403,13 @@ class AddNewMarket extends Component {
                   <Map
                     google={this.props.google}
                     center={
-                      this.state.location.place.mapPosition || {
-                        lat: 18.5204,
-                        lng: 73.8567,
-                      }
+                      this.state.location.place &&
+                      this.state.location.place.mapPosition
+                        ? this.state.location.place.mapPosition
+                        : {
+                            lat: 18.5204,
+                            lng: 73.8567,
+                          }
                     }
                     height="250px"
                     zoom={15}
@@ -440,9 +466,10 @@ class AddNewMarket extends Component {
         {this.state.showAvailableMarkets ? (
           <div
             className="chat-opener-holder"
-            onClick={() =>
-              this.setState({ showAvailableMarkets: false, showDelete: false })
-            }
+            onClick={() => {
+              this.clearMarketData();
+              this.setState({ showAvailableMarkets: false, showDelete: false });
+            }}
           >
             {" "}
             <div className="chat-opener">

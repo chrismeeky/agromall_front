@@ -28,12 +28,7 @@ class LeftBar extends Component {
             </button>
           </div>
           <hr />
-          <div
-            className="menu-options"
-            onClick={() => this.props.switchTabs("newMarkets")}
-          >
-            <span>New markets</span>
-          </div>
+
           <div
             className="menu-options"
             onClick={() => this.props.switchTabs("nearbyMarkets")}

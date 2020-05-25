@@ -73,3 +73,16 @@
   .market-info .address {
       font-size: 10px;
   }
+
+  .location-searchbox {
+    width: 70%;
+    margin: auto;
+  }
+  .pac-target-input {
+    border: 1px solid rgb(233, 228, 228)
+  }
+
+  .apply-filter {
+    width: fit-content;
+    margin: auto;
+  }
