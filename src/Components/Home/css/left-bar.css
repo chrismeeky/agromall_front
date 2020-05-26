@@ -84,3 +84,39 @@
   margin: 5px;
   border-radius: 5px;
 }
+.log-out-btn {
+  display: none;
+  color: rgb(63, 57, 57);
+  margin-top: 10px;
+  font-size: 15px;
+}
+@media screen and (max-width: 850px) {
+  .edit-profile {
+    width: 100%;
+  }
+  .log-out-btn {
+    display: block;
+  }
+  .fa-sign-out-alt {
+    display: none;
+  }
+  .popular-markets {
+    width: fit-content;
+    margin: auto;
+  }
+  .markets {
+    width: 100%;
+    margin: auto;
+  }
+  .popular-market {
+    float: left;
+    width: 90%;
+    height: 12vw;
+    background-color: grey;
+    margin: 5px;
+    border-radius: 5px;
+  }
+  #popular-market {
+    font-size: 13px;
+  }
+}

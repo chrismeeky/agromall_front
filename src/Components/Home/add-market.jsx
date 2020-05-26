@@ -6,6 +6,7 @@ import DeleteOverlay from "./delete-market-modal";
 import createNotification from "./notification";
 import Map from "./map";
 import ImageUploadModal from "./image-upload-modal";
+import DeleteEditOverlay from "./delete-edit-overlay";
 import "./css/add-market.css";
 class AddNewMarket extends Component {
   state = {
@@ -201,7 +202,7 @@ class AddNewMarket extends Component {
               {this.state.allMarkets.reverse().map((market) => (
                 <div className="one-market">
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-6 info-column">
                       <div className="market-picture">
                         <img src={market.imageURLs[0]} alt="" />
                       </div>
@@ -217,8 +218,20 @@ class AddNewMarket extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 modify-column">
                       <div className="modify-icons-container">
+                        <div className="delete-edit">
+                          <DeleteEditOverlay
+                            handleEdit={() => this.handleEdit(market._id)}
+                            handleDelete={() =>
+                              this.setState({
+                                showDelete: true,
+                                marketID: market._id,
+                              })
+                            }
+                          />
+                        </div>
+
                         <div
                           className="modify-icons"
                           title="delete market"
@@ -307,7 +320,7 @@ class AddNewMarket extends Component {
                   <div class="form-group row"></div>
                   <div class="form-group row">
                     <label for="nameofmarket" class="col-sm-4 col-form-label">
-                      Name of market
+                      Market name
                     </label>
                     <div class="col-sm-8">
                       <input

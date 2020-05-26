@@ -47,6 +47,7 @@ class LeftBar extends Component {
                 <button className="edit-profile btn">
                   <i className="fa fa-edit"></i> Edit profile
                 </button>
+                <div className="log-out-btn menu-options">Log out</div>
               </div>
               <hr />
             </React.Fragment>
@@ -117,7 +118,7 @@ class LeftBar extends Component {
 
           <hr />
           <div className="popular-markets">
-            <span>Popular markets</span>
+            <span id="popular-market">Popular markets</span>
           </div>
           <div className="markets">
             <div className="popular-market"></div>

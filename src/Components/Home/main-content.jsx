@@ -23,7 +23,7 @@ class MainContent extends Component {
   handleToggle = () => {
     this.setState({
       accordionOpen: !this.state.accordionOpen,
-      height: this.state.accordionOpen ? "0px" : "170px",
+      height: this.state.accordionOpen ? "0px" : "200px",
     });
     if (this.state.openedAccordion)
       setTimeout(() => {

@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from "reactn";
 import axios from "axios";
-import { storage } from "../../config/firebase-config";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "./css/image-upload-modal.css";

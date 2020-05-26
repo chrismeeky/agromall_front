@@ -42,6 +42,7 @@
   padding: 20px;
   margin: auto;
 }
+
 .market-form .title1 {
   font-size: 25px;
 }
@@ -50,6 +51,20 @@
 }
 .location-form span {
   margin-bottom: 10px;
+}
+@media screen and (max-width: 1100px) {
+  .market-form {
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    
+  }
+  .form-control {
+    font-size: 15px;
+  }
+  .market-form .title1 {
+    font-size: 22px;
+  }
 }
 .market-button button {
   background-color: rgb(211, 210, 210);
@@ -148,6 +163,37 @@
 }
 .modify-icons .edit {
   margin-right: 20px;
+}
+.delete-edit {
+  display: none;
+}
+@media screen and (max-width: 920px) {
+  .market-list {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 850px) {
+  .delete-edit {
+    display: block;
+  }
+  .modify-icons {
+    display: none;
+  }
+  .info-column {
+    width: 90%;
+  }
+  .modify-column {
+    width: 10%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .market-title .title {
+    font-size: 15px;
+  }
+
+  .market-title .date {
+    font-size: 12px;
+  }
 }
 .chat-opener-holder {
   bottom: 34px;

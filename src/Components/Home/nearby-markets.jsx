@@ -150,7 +150,7 @@ class NearbyMarkets extends Component {
           ref={(divElement) => (this.divElement = divElement)}
         >
           <div
-            className={`accordion-body`}
+            className="accordion-body"
             style={{ maxHeight: this.props.height }}
           >
             <div className="row">
