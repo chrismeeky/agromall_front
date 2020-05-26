@@ -40,6 +40,7 @@ class AddNewMarket extends Component {
   };
   handleSubmit = async () => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    this.global.showLoadingOverlay(true);
     this.setState({
       showLoadingOverlay: true,
       showImageUploader: false,
@@ -75,11 +76,8 @@ class AddNewMarket extends Component {
           );
 
       if (savedMarket) {
-        setTimeout(() => {
-          this.clearMarketData();
-          createNotification("info");
-        }, 3000);
         this.getAllMarkets();
+        this.clearMarketData();
       }
     } catch (error) {
       console.log("error", error.message);
@@ -115,6 +113,7 @@ class AddNewMarket extends Component {
           allMarkets: allMarkets.markets,
           showLoadingOverlay: false,
         });
+        this.global.showLoadingOverlay(false);
       }
     } catch (error) {}
   };
@@ -139,39 +138,51 @@ class AddNewMarket extends Component {
     const newDate = new Date(date);
     return `Published ${monthNames[newDate.getMonth()]} ${newDate.getDate()}`;
   };
-  handleEdit = (marketID) => {
-    const market = [...this.state.allMarkets].filter(
-      (market) => market._id === marketID
-    )[0];
-    const data = {
-      nameOfMarket: market.marketName,
-      description: market.marketDescription,
-      categories: market.categories,
-      marketPhotos: market.imageURLs,
-      location: {
-        place: {
-          place_id: market.locationID,
-          address_components: market.addressComponents,
-          formatted_address: market.formattedAddress,
-          mapPosition: market.mapPosition,
-        },
-        city: market.city,
-        area: market.area,
-        state: market.state,
-        address: market.formattedAddress,
-      },
-    };
-    this.setState({
-      ...data,
-      showAvailableMarkets: false,
-      isEditing: true,
-      marketID,
-    });
+  handleEdit = async (marketID) => {
+    this.global.showLoadingOverlay(true);
+
+    try {
+      const foundMarket = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/market/${marketID}`
+      );
+      if (foundMarket) {
+        const market = foundMarket.data.data.market;
+        const data = {
+          nameOfMarket: market.marketName,
+          description: market.marketDescription,
+          categories: market.categories,
+          marketPhotos: market.imageURLs,
+          location: {
+            place: {
+              place_id: market.locationID,
+              address_components: market.addressComponents,
+              formatted_address: market.formattedAddress,
+              mapPosition: market.mapPosition,
+            },
+            city: market.city,
+            area: market.area,
+            state: market.state,
+            address: market.formattedAddress,
+          },
+        };
+        console.log("this is market", data, marketID);
+
+        this.setState({
+          ...data,
+          showAvailableMarkets: false,
+          isEditing: true,
+          marketID,
+        });
+        this.global.showLoadingOverlay(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   render() {
     return (
       <React.Fragment>
-        <BusyOverlay showLoadingOverlay={this.state.showLoadingOverlay} />
+        {/* <BusyOverlay showLoadingOverlay={this.state.showLoadingOverlay} /> */}
         <ImageUploadModal
           showImageUploader={this.state.showImageUploader}
           addImages={this.addImages}
@@ -315,7 +326,7 @@ class AddNewMarket extends Component {
                       Description
                     </label>
                     <div class="col-sm-8">
-                      <input
+                      <textarea
                         type="string"
                         class="form-control"
                         id="description"
@@ -323,7 +334,7 @@ class AddNewMarket extends Component {
                         name="description"
                         placeholder="Describe the market"
                         onChange={this.handleChange}
-                      ></input>
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">

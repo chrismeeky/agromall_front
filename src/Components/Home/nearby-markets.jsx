@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React, { Component } from "reactn";
 import axios from "axios";
+import Loader from "react-loader-spinner";
 import Autocomplete from "react-google-autocomplete";
 import { getCity, getArea, getState } from "../../Utils/getAddressComponent";
+import SpecificMarket from "./specific-market";
 import "./css/nearby-markets.css";
 class NearbyMarkets extends Component {
   state = {
@@ -16,8 +18,9 @@ class NearbyMarkets extends Component {
     selectedLocation: {},
     filteredMarkets: [],
     foundMarkets: [],
+    viewSpecificMarket: false,
   };
-  async componentDidMount() {
+  initializeMarkets = async () => {
     try {
       const markets = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/markets`
@@ -40,6 +43,7 @@ class NearbyMarkets extends Component {
             city,
             state,
             area,
+            _id,
           } = market;
           toBeRendered.push({
             marketName,
@@ -50,17 +54,26 @@ class NearbyMarkets extends Component {
             city,
             state,
             area,
+            _id,
           });
         });
         this.setState({
           markets: toBeRendered,
           marketsCopy: toBeRendered,
           allCategories,
+          allMarkets,
         });
       }
     } catch (error) {
       console.log(error.message);
     }
+  };
+  async componentDidMount() {
+    this.initializeMarkets();
+    this.setGlobal({
+      setView: this.setView,
+      initializeMarkets: this.initializeMarkets,
+    });
   }
   handleSelectedCategory = (event) => {
     let selectedCategories = [...this.state.selectedCategories];
@@ -102,8 +115,6 @@ class NearbyMarkets extends Component {
             categories.includes(category)
           ) ||
           categories.some((category) => selectedCategories.includes(category));
-        console.log(found);
-
         if (found) {
           filteredMarkets.push(toBeFilteredMarkets[index]);
         }
@@ -119,6 +130,17 @@ class NearbyMarkets extends Component {
       filteredMarkets,
       foundMarkets,
     });
+  };
+  handleSelectedMarket = (id) => {
+    this.global.hideToggleButton(true);
+    const selectedMarket = this.state.allMarkets.filter(
+      (market) => market._id === id
+    )[0];
+
+    this.setState({ selectedMarket: id, viewSpecificMarket: true });
+  };
+  setView = (value) => {
+    this.setState({ viewSpecificMarket: value });
   };
   render() {
     return (
@@ -182,11 +204,34 @@ class NearbyMarkets extends Component {
             </div>
           </div>
         </div>
-        {this.state.markets.length ? (
+        {!this.state.markets.length ? (
+          <div
+            style={{ width: "fit-content", margin: "auto", marginTop: "200px" }}
+          >
+            {" "}
+            <Loader
+              type="Oval"
+              color="grey"
+              height={60}
+              width={60}
+              timeout={10000000000000} //3 secs
+            />
+          </div>
+        ) : null}
+
+        <React.Fragment>
+          {this.state.viewSpecificMarket ? (
+            <SpecificMarket selectedMarket={this.state.selectedMarket} />
+          ) : null}
+        </React.Fragment>
+        {this.state.markets.length && !this.state.viewSpecificMarket ? (
           <div>
-            {this.state.markets.map((market) => (
+            {this.state.markets.reverse().map((market) => (
               <div className="nearby-markets-container">
-                <div className="market">
+                <div
+                  className="market"
+                  onClick={() => this.handleSelectedMarket(market._id)}
+                >
                   <img
                     style={{ width: "100%", height: "inherit" }}
                     src={market.imageURL}

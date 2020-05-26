@@ -1,23 +1,27 @@
-import React, { Component } from "react";
+import React, { Component } from "reactn";
 import Loader from "react-loader-spinner";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import "./css/busy-overlay.css";
 
 class BusyOverlay extends Component {
-  state = {};
+  state = {
+    showLoadingOverlay: false,
+  };
+
+  showLoadingOverlay = (value) => {
+    this.setState({ showLoadingOverlay: value });
+  };
+  componentDidMount() {
+    this.setGlobal({ showLoadingOverlay: this.showLoadingOverlay });
+  }
   render() {
     return (
       <React.Fragment>
-        {this.props.showLoadingOverlay ? (
+        {this.state.showLoadingOverlay ? (
           <div className="show-busy-overlay">
-            <div className="overlay-loader">
-              <Loader
-                type="ThreeDots"
-                color="white"
-                height={20}
-                width={100}
-                timeout={10000000000000} //3 secs
-              />
+            <div className="overlay-loaderx">
+              <LinearProgress />
             </div>
           </div>
         ) : null}

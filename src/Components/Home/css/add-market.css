@@ -169,3 +169,14 @@
   width: 55px;
   height: 55px;
 }
+textarea {
+  resize: none;
+  height: 150px;
+}
+input {
+  border: 1px solid rgb(116, 113, 113);
+}
+input:focus {
+  border-color: #7f7af8;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px #7f7af8;
+}

@@ -49,15 +49,15 @@ class Login extends Component {
           }
         );
         if (loggedIn) {
-          this.setState({
-            showSubmitLoader: false,
-            loggedIn: true,
-            userDetails: loggedIn.data.data.userDetails,
-          });
           localStorage.setItem(
             "userDetails",
             JSON.stringify(loggedIn.data.data.userDetails)
           );
+          setTimeout(() => {
+            this.setState({
+              loggedIn: true,
+            });
+          }, 2000);
         }
       } catch (error) {
         this.setState({
@@ -145,7 +145,7 @@ class Login extends Component {
                   {this.state.showSubmitLoader ? (
                     <Loader
                       type="ThreeDots"
-                      color="grey"
+                      color="white"
                       height={30}
                       width={50}
                       timeout={10000000000000} //3 secs

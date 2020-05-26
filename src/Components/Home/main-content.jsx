@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "reactn";
 import AddNewMarket from "./add-market";
 import "./css/main-content.css";
 import NearbyMarkets from "./nearby-markets";
@@ -16,6 +16,9 @@ class MainContent extends Component {
     nearbyMarkets: "Markets nearby",
     newMarkets: "New markets",
     manageMarkets: "Manage markets",
+    preferences: "Preferences",
+    aboutUs: "About us",
+    contactUs: "Contact us",
   };
   handleToggle = () => {
     this.setState({
@@ -31,7 +34,12 @@ class MainContent extends Component {
   componentWillReceiveProps = (props) => {
     this.setState({ activeTab: props.activeTab });
   };
-
+  hideToggleButton = (value) => {
+    this.setState({ hideToggle: value });
+  };
+  componentDidMount() {
+    this.setGlobal({ hideToggleButton: this.hideToggleButton });
+  }
   render() {
     return (
       <div className="main-content-body">
@@ -43,9 +51,11 @@ class MainContent extends Component {
           <div className="title">
             <span>{this.tabNames[this.state.activeTab]}</span>
           </div>
-          <div className="filter-search" onClick={this.handleToggle}>
-            <i className="fa fa-filter"></i>
-          </div>
+          {!this.state.hideToggle ? (
+            <div className="filter-search" onClick={this.handleToggle}>
+              <i className="fa fa-filter"></i>
+            </div>
+          ) : null}
         </div>
         {this.state.activeTab === "manageMarkets" ? <AddNewMarket /> : ""}
         {this.state.activeTab === "nearbyMarkets" ? (

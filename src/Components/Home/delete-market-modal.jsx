@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "reactn";
 import axios from "axios";
 import { storage } from "../../config/firebase-config";
 import Modal from "react-bootstrap/Modal";
@@ -24,6 +24,8 @@ class ImageUploadModal extends Component {
     this.setState({ show: props.showDelete, marketID: props.marketID });
   }
   handleDelete = async () => {
+    this.global.showLoadingOverlay(true);
+
     this.handleClose();
 
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -34,6 +36,7 @@ class ImageUploadModal extends Component {
       );
       if (isDeleted) {
         this.props.getAllMarkets();
+        this.global.showLoadingOverlay(false);
       }
     } catch (error) {}
   };

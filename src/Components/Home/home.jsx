@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import BusyOverlay from "./busy-overlay";
 import LeftBar from "./left-bar";
 import MainContent from "./main-content";
 import "./css/home.css";
@@ -12,6 +13,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home-body">
+        <BusyOverlay />
         <div class="row">
           <div class="column left-bar">
             <LeftBar switchTabs={this.switchTabs} />

@@ -47,6 +47,7 @@
   margin: 10px;
   cursor: pointer;
 }
+
 .market-overlay {
   width: 100%;
   height: 150px;
@@ -73,7 +74,25 @@
   .market-info .address {
       font-size: 10px;
   }
-
+@media screen and (max-width: 990px) {
+  .nearby-markets-container .market {
+    width: 30%
+  }
+  
+}
+@media screen and (max-width: 830px) {
+  .nearby-markets-container .market {
+    width: 40%;
+  }
+  
+}
+@media screen and (max-width: 618px) {
+  .nearby-markets-container .market {
+    width: 90%;
+   
+  }
+  
+}
   .location-searchbox {
     width: 70%;
     margin: auto;

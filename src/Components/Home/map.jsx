@@ -260,7 +260,7 @@ class Map extends Component {
           />
           <Marker />
           {/* For Auto complete Search Box */}
-          <Autocomplete
+         {this.props.hideAutoComplete ?null: <Autocomplete
             style={{
               width: "100%",
               height: "40px",
@@ -270,7 +270,7 @@ class Map extends Component {
             }}
             onPlaceSelected={this.onPlaceSelected}
             types={["geocode"]}
-          />
+          />}
         </GoogleMap>
       ))
     );

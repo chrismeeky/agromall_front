@@ -1,7 +1,8 @@
 .main-content-body {
   background-color: white;
   overflow-y: scroll;
-  height:  700px;
+  height:  600px;
+  padding-bottom: 100px;
 }
 .main-content-header {
   height: 70px;
