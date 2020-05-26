@@ -15,8 +15,8 @@
   font-size: 20px;
 }
 .about-market .description {
-  width: 60%;
-  text-align: left;
+  width: 80%;
+  text-align: justify;
 }
 .about-market .categories {
   margin-top: 20px;
@@ -54,4 +54,12 @@
 .google-map-specific {
   width: 70%;
   margin: auto;
+}
+@media screen and (max-width:900px) {
+  .about-market .description {
+    width: 100%;
+  }
+  .google-map-specific {
+    width: 90%;
+  }
 }

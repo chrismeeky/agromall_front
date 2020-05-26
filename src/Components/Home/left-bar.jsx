@@ -47,7 +47,15 @@ class LeftBar extends Component {
                 <button className="edit-profile btn">
                   <i className="fa fa-edit"></i> Edit profile
                 </button>
-                <div className="log-out-btn menu-options">Log out</div>
+                <div
+                  className="log-out-btn menu-options"
+                  onClick={() => {
+                    localStorage.clear();
+                    this.setState({ loggedOut: true });
+                  }}
+                >
+                  Log out
+                </div>
               </div>
               <hr />
             </React.Fragment>
